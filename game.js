@@ -10,6 +10,7 @@ function preload() {
 }
 
 var player;
+var npc;
 var platforms;
 var cursors;
 
@@ -27,8 +28,13 @@ function create() {
     //  Our two animations, walking left and right.
     player.animations.add('left', [0, 1, 2, 3], 10, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
+    
+    npc = game.add.sprite(200, 200, 'dude');
+    game.physics.arcade.enable(npc);
+    npc.body.immovable = true;
+    npc.body.collideWorldBounds = true;
 
-    //  Our controls.
+    
     cursors = game.input.keyboard.createCursorKeys();
     
 }
@@ -37,6 +43,9 @@ function update() {
 
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
+    
+    game.physics.arcade.collide(player, npc);
+
 
     if (cursors.left.isDown)
     {
@@ -46,6 +55,7 @@ function update() {
     else if (cursors.right.isDown)
     {
         player.body.velocity.x = 150;
+
         player.animations.play('right');
     }
     else
@@ -56,7 +66,7 @@ function update() {
         player.frame = 4;
     }
     
-    if (cursors.up.isDown)
+    if (cursors.up.isDown)// && player.top > npc.bottom)
     {
         player.body.velocity.y = -150;
     }
