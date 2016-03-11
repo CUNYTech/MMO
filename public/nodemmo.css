@@ -73,3 +73,8 @@ body {
     text-decoration: underline;;
     cursor: pointer;
 }
+
+#fadingMsg {
+    position: absolute;
+    color: #586E75;
+}

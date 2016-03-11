@@ -345,7 +345,6 @@ $(function() {
             $("#loadPageOptions").show();
         }
         flashMessage(data.status);
-        alert(data.status);
     });
 
     //Change password handler
@@ -375,14 +374,12 @@ $(function() {
     socket.on("changePasswordResponse", function(data) {
         if (data.status) {
             flashMessage("Your password has been changed");
-            alert("Your password has been changed");
         }
     });
 
     //Event handler for when server sends response for forgotten password
     socket.on("forgotPasswordResponse", function(data) {
         flashMessage(data.status);
-        alert(data.status);
     });
 
     //Event handler for when server sends login status response
@@ -394,6 +391,8 @@ $(function() {
         else if (data.status === "Username does not exist" ||
             data.status === "Wrong password") {
             $("#loadPageOptions").show();
+        } else if (data.status === "You are already logged in") {
+            window.location.reload(true);
         } else { //successful authentication
             id = data.id;
             admin = data.admin;
@@ -421,7 +420,6 @@ $(function() {
             runGame();
         }
         flashMessage(data.status);
-        alert(data.status);
     });
 
     //Adjust population
