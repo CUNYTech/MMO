@@ -1,0 +1,75 @@
+* {
+    font-family: "Open Sans", sans-serif;
+}
+
+#logo img {
+    width: 300px;
+}
+
+.logoSm img {
+    width: 180px;
+}
+
+body {
+    background-color: #EEE8D5;
+}
+
+#game {
+    z-index: 1;
+    width: 800px;
+    height: 600px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#loadPageOptions {
+    z-index: 3;
+    border: 2px solid #93A1A1;
+    background-color: #93A1A1;
+    height: 400px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+#loadPageOptions button {
+    background-color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    width: 120px;
+    height: 45px;
+    margin: 10px;
+}
+
+#loadPageOptions button:hover {
+    cursor: pointer;
+}
+
+#registerForm button {
+    margin: 20px;
+}
+
+#changePwd:hover {
+    cursor: pointer;
+}
+
+#changePwd button {
+    background-color: #FFFFFF;
+    border: 2px solid #FFFFFF;
+    width: 120px;
+    height: 45px;
+    margin: 10px;
+}
+
+#changePwd button:hover {
+    cursor: pointer;
+}
+
+#forgotPwd:hover {
+    text-decoration: underline;;
+    cursor: pointer;
+}

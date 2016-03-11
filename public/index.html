@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Combat Life</title>
+        <link rel="stylesheet" href="nodemmo.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans"/>
+        <link rel="icon" type="image/png" href="favicon.png"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div id="logo"><img src="logo.png"></div><br><br>
+
+        <h2 id="connectionCount"></h2>
+        <h2 id="playerCount">Players online: </h2>
+        <div id="userInfo"></div>
+
+        <div id="game">
+        
+            <div id="loadPageOptions">
+                <div class="logoSm"><img src="logo.png"></div>
+                <div id="loadPageForms">
+                    <form id="loginForm">
+                        <input type="text" id="loginUsn" placeholder="Username"><br>
+                        <input type="password" id="loginPwd" placeholder="Password"><br>
+                        <button type="submit" id="submitLogin">OK</button>
+                    </form>
+                    <br>
+                    <span id="noAccount">
+                        Don't have an account?
+                        <button type="button" id="register">Register</button>
+                    </span>
+                    <br><br>
+                    <span id="forgotPwd">
+                        Forgot your password?
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <script src="jquery-2.2.0.min.js"></script>
+        <script src="socket.io/socket.io.js"></script>
+        <script src="main.js"></script>
+        <script src="phaser.min.js"></script>
+    </body>
+</html>
