@@ -39,9 +39,13 @@ $(function() {
             game.load.spritesheet("spear", "images/spear.png", 64, 64, 273);
             game.load.spritesheet("dagger", "images/dagger.png", 64, 64, 273);
             game.load.spritesheet("bomb", "images/bomb.png", 64, 64, 8);
+            game.load.audio("backGroundMusic", "music/ComeandFindMe.mp3")
         }
 
         function create() {
+        	var bgm = game.add.audio("backGroundMusic");
+        	bgm.loop = true;
+        	bgm.play();
             background = game.add.tileSprite(0, 0, 3200, 2400, "background");
             game.world.setBounds(0, 0, 3200, 2400);
             game.physics.startSystem(Phaser.Physics.ARCADE);
