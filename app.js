@@ -33,7 +33,7 @@ pg.connect(conString, function(err, client, done) {
 });
 
 //Session opened
-io.on("connection", function(socket) {
+io.on("connection", function(socket) { // event handler on connection
     
     open_connections++;
     io.sockets.emit("adjustPopulation", { population: open_connections,
@@ -216,6 +216,11 @@ io.on("connection", function(socket) {
                 done();
             });
         });
+    });
+
+    // receive message
+    socket.on("receiveMessage", function(data) {
+        
     });
 
     //Join game handler
