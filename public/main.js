@@ -140,12 +140,15 @@ $(function() {
                 game.physics.arcade.collide(player, playerStorage[p].player);
             }
         }
+        
 
         function render() {
             //game.debug.body(player);
             //for (var p in playerStorage) {
             //    game.debug.body(playerStorage[p].player);
             //}
+             game.debug.text('Elapsed seconds: ' + this.game.time.totalElapsedSeconds(), 32, 32);
+
         }
     }
 
