@@ -343,6 +343,17 @@ $(function() {
         });
     });
 
+
+    // event handler for sending message
+    socket.on("receiveMessage", function(data) {
+        
+    });
+
+    // event handler for receive message
+    socket.on("receiveMessage", function(data) {
+
+    });
+
     //Event handler for when server sends registration status response
     socket.on("registerResponse", function(data) {
         if (data.status === "Username already exists") {
