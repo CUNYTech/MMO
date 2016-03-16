@@ -1,3 +1,5 @@
+// client setup
+
 $(function() {
 
     //Back-end variables
@@ -158,6 +160,18 @@ $(function() {
         }
         return ret;
     }
+
+    // client receive message
+    socket.emit("sendMessage",function(data){
+        io.socket.emit("receiveMessage", {
+
+        });
+    });
+
+    // client receive message
+    socket.on("receiveMessage",function(data){
+
+    });
 
     socket.on("spawnPlayer", function(data) {
         if (id > 0) {
@@ -343,10 +357,13 @@ $(function() {
         });
     });
 
-
+    // CHAT EVENTS
     // event handler for sending message
-    socket.on("receiveMessage", function(data) {
-        
+    $("#chatBox").on("submit", function(e) {
+        socket.emit("login", {
+            msg: $("#loginUsn").val(),
+        });
+        return false; //don't reload document
     });
 
     // event handler for receive message

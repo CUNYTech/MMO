@@ -218,9 +218,12 @@ io.on("connection", function(socket) { // event handler on connection
         });
     });
 
+    // CHAT
+    // send message
+    socket.emit("")
     // receive message
     socket.on("receiveMessage", function(data) {
-        
+
     });
 
     //Join game handler
