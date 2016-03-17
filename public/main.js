@@ -25,6 +25,8 @@ $(function() {
     var myEquipment = {};
 
     $("#connectionCount").hide();
+    $("#chat").hide();
+
     $("#loginUsn").focus();
 
     var socket = io();
@@ -362,7 +364,7 @@ $(function() {
 
     // CHAT EVENTS
     // event handler for sending message
-    $("#chatBox").on("submit", function(e) {
+    $("#chatBox").on("cSubmit", function(e) {
         socket.emit("login", {
             msg: $("#loginUsn").val(),
         });
@@ -432,6 +434,8 @@ $(function() {
             id = data.id;
             admin = data.admin;
             if (data.admin) { $("#connectionCount").show(); }
+
+            $("#chat").show();
 
             //Account options
             var $f = $("<p id='showUsn'>" + data.username + "</p>");
