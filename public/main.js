@@ -125,7 +125,7 @@ $(function() {
             //bomb.animations.play("explode");
         }
 
-        var dir = "";
+        var dir = "down";
         var isMoving = false;
         var attacked = false;
         function update() {
