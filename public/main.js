@@ -43,7 +43,8 @@ $(function() {
             game.load.spritesheet("spear", "images/spear.png", 64, 64, 273);
             game.load.spritesheet("dagger", "images/dagger.png", 64, 64, 273);
             game.load.spritesheet("bomb", "images/bomb.png", 64, 64, 8);
-            game.load.audio("backGroundMusic", "music/ComeandFindMe.mp3")
+            game.load.audio("backGroundMusic", "music/ComeandFindMe.mp3");
+            game.load.image("tree", "images/tree.png");
         }
 
         function create() {
@@ -56,7 +57,7 @@ $(function() {
 
             //player = game.add.sprite(Math.floor((Math.random() * 3200)),
             //    Math.floor((Math.random() * 2400)), "player", 131);
-            player = game.add.sprite(0, 0, "player", 130);
+            player = game.add.sprite(200, 200, "player", 130);
             game.physics.arcade.enable(player);
             player.body.collideWorldBounds = true;
 
@@ -79,6 +80,19 @@ $(function() {
 
             myEquipment["weapon"] = "spear";
 
+            bounds = game.add.physicsGroup();
+            for (var i = -30; i < 3200; i += 90) { //horizontal bounds
+                bounds.create(i, -30, "tree");
+                bounds.create(i, 2310, "tree");
+            }
+            for (var i = 60; i < 2300; i += 90) { //vertical bounds
+                bounds.create(-30, i, "tree");
+                bounds.create(3120, i, "tree");
+            }
+            bounds.forEach(function(tree) {
+                tree.body.immovable = true;
+            });
+
             socket.emit("joinGame", { id: id, position: player.position,
                 weapon: "spear", equips: myEquipment });
 
@@ -93,6 +107,7 @@ $(function() {
         function update() {
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
+            game.physics.arcade.collide(player, bounds);
             if (leftKey.isDown) {
                 player.body.velocity.x = -150;
                 player.animations.play("left");
