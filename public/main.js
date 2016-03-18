@@ -7,7 +7,7 @@ $(function() {
     var admin = false;
     var ip = "";
     $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function(json) {
-        ip = json.ip
+        ip = json.ip;
     });
     var browser = "Unknown";
     if ((!!window.opr && !!opr.addons) || !!window.opera ||
@@ -86,7 +86,7 @@ $(function() {
                 
                 healthBar.update = function() {
                     healthBar.scale.x = sprite.health/sprite.maxHealth;
-                }
+                };
             }
             
             addHPBar(player, 100);
@@ -98,7 +98,7 @@ $(function() {
                         child.update();
                     }
                 }
-            }
+            };
 
             game.camera.follow(player);
 
