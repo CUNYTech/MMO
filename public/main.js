@@ -40,6 +40,8 @@ $(function() {
             game.load.image("background", "images/maplg.png");
             game.load.spritesheet("player", "images/base_character.png", 64,
                 64, 273);
+            game.load.image('healthBar', 'images/health.png');
+            
             game.load.spritesheet("spear", "images/spear.png", 64, 64, 273);
             game.load.spritesheet("dagger", "images/dagger.png", 64, 64, 273);
             game.load.spritesheet("bomb", "images/bomb.png", 64, 64, 8);
@@ -75,6 +77,28 @@ $(function() {
             loadAnimationFrames(spear);
 
             player.addChild(spear);
+            
+            function addHPBar(sprite, health) {
+                // hp defaults to 1 and maxHealth defaults to undefined
+                sprite.maxHealth = player.health = health;
+                var healthBar = game.make.sprite(10, -10, 'healthBar');
+                sprite.addChild(healthBar);
+                
+                healthBar.update = function() {
+                    healthBar.scale.x = sprite.health/sprite.maxHealth;
+                }
+            }
+            
+            addHPBar(player, 100);
+            
+            player.update = function() {
+                for(var c=0; c < player.children.length; ++c) {
+                    var child = player.children[c];
+                    if(child.update) {
+                        child.update();
+                    }
+                }
+            }
 
             game.camera.follow(player);
 
