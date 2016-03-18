@@ -364,9 +364,9 @@ $(function() {
 
     // CHAT EVENTS
     // event handler for sending message
-    $("#chatBox").on("cSubmit", function(e) {
-        socket.emit("login", {
-            msg: $("#loginUsn").val(),
+    $("#chatBox").on("submit", function(e) {
+        socket.emit("sendMessage", {
+            msg: $("#message").val()
         });
         return false; //don't reload document
     });

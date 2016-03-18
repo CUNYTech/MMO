@@ -222,8 +222,11 @@ io.on("connection", function(socket) { // event handler on connection
     // send message
     socket.emit("")
     // receive message
-    socket.on("receiveMessage", function(data) {
-
+    socket.on("sendMessage", function(data) {
+        console.log(data.msg);
+        for (var c in clients) {
+            io.sockets.emit("")
+        }
     });
 
     //Join game handler
