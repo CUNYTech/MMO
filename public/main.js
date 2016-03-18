@@ -166,7 +166,7 @@ $(function() {
             //for (var p in playerStorage) {
             //    game.debug.body(playerStorage[p].player);
             //}
-             game.debug.text('Elapsed seconds: ' + this.game.time.totalElapsedSeconds(), 32, 32);
+             game.debug.text('Elapsed seconds: ' + Math.floor(this.game.time.totalElapsedSeconds()), 32, 32);
 
         }
     }
