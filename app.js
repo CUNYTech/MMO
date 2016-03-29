@@ -234,6 +234,7 @@ io.on("connection", function(socket) { // event handler on connection
         console.log("Player " + data.id + " joined the game");
         clients[data.id] = { id: data.id, username: data.usn,
             position: data.position, equips: data.equips };
+        console.log(data.usn);
 
         for (var c in clients) {
             io.sockets.emit("spawnPlayer", { id: clients[c].id,

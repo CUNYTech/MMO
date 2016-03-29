@@ -451,7 +451,7 @@ $(function() {
         } else { //successful authentication
             id = data.id;
             admin = data.admin;
-            username = data.usn;
+            username = data.username;
             if (data.admin) { $("#connectionCount").show(); }
 
             $("#chat").show();
