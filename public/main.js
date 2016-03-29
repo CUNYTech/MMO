@@ -5,6 +5,7 @@ $(function() {
     //Back-end variables
     var id = -1;
     var admin = false;
+    var username;
     var ip = "";
     $.getJSON("https://api.ipify.org?format=jsonp&callback=?", function(json) {
         ip = json.ip;
@@ -113,11 +114,13 @@ $(function() {
                 bounds.create(-30, i, "tree");
                 bounds.create(3120, i, "tree");
             }
+            bounds.create(300, 300, "tree");
             bounds.forEach(function(tree) {
                 tree.body.immovable = true;
             });
 
-            socket.emit("joinGame", { id: id, position: player.position,
+            socket.emit("joinGame", { id: id, usn: username,
+                position: player.position,
                 weapon: "spear", equips: myEquipment });
 
             //bomb = game.add.sprite(0, 0, "bomb", 0);
@@ -272,7 +275,7 @@ $(function() {
         this.player = game.add.sprite(position.x, position.y, "player");
         loadAnimationFrames(this.player);
         game.physics.arcade.enable(this.player); //prevent player overlap
-        this.player.body.setSize(32, 48, 16, 14);
+        this.player.body.setSize(32, 48, 16, 14); //tree
         this.player.body.immovable = true;
         this.player.body.moves = false;
 
@@ -472,6 +475,7 @@ $(function() {
         } else { //successful authentication
             id = data.id;
             admin = data.admin;
+            username = data.username;
             if (data.admin) { $("#connectionCount").show(); }
 
             $("#chat").show();
