@@ -218,14 +218,14 @@ io.on("connection", function(socket) { // event handler on connection
         });
     });
 
-    // CHAT Handler
+    // CHAT
+    // send message
+    socket.emit("")
+    // receive message
     socket.on("sendMessage", function(data) {
         console.log(data.msg);
         for (var c in clients) {
-            io.sockets.emit("receiveMessage", {
-                usr: data.username
-                msg: data.msg
-            });
+            io.sockets.emit("")
         }
     });
 

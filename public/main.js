@@ -405,7 +405,6 @@ $(function() {
     // event handler for sending message
     $("#chatBox").on("submit", function(e) {
         socket.emit("sendMessage", {
-            usr: $
             msg: $("#message").val()
         });
         return false; //don't reload document
@@ -413,11 +412,7 @@ $(function() {
 
     // event handler for receive message
     socket.on("receiveMessage", function(data) {
-        var $userNameDiv = $('<span class="username"/>')
-            .text(data.username);
-        var $messageBodyDiv = $('<span class="messageBody">')
-            .text(data.message);
-        $("#messageBodyDiv").append("<li class='message'/>")
+
     });
 
     //Event handler for when server sends registration status response
@@ -478,9 +473,8 @@ $(function() {
             id = data.id;
             admin = data.admin;
             if (data.admin) { $("#connectionCount").show(); }
-         
-            $("#chat").show()
-                      .append('<div id="messageBodyDiv"></div>');
+
+            $("#chat").show();
 
             //Account options
             var $f = $("<p id='showUsn'>" + data.username + "</p>");
