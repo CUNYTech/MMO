@@ -73,7 +73,6 @@ $(function() {
             spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
             loadAnimationFrames(player);
-
             spear = game.add.sprite(0, 0, "spear", 130);
             loadAnimationFrames(spear);
 
@@ -95,10 +94,8 @@ $(function() {
             player.update = function() {
                 for(var c=0; c < player.children.length; ++c) {
                     var child = player.children[c];
-                    if(child.update) {
                         child.update();
                     }
-                }
             };
 
             game.camera.follow(player);
