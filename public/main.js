@@ -73,6 +73,12 @@ $(function() {
             spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
             loadAnimationFrames(player);
+            
+            // add nametag
+            // todo: center this properly
+            player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
+            
+            
             spear = game.add.sprite(0, 0, "spear", 130);
             loadAnimationFrames(spear);
 
