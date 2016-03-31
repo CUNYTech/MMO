@@ -117,9 +117,82 @@ $(function() {
                 bounds.create(-30, i, "tree");
                 bounds.create(3120, i, "tree");
             }
-            bounds.create(300, 300, "tree");
+            /*bounds.create(300, 300, "tree");
+            bounds.create(355, 355, "tree");
+            bounds.create(410, 410, "tree");
+            bounds.create(465, 465, "tree");
+            bounds.create(520, 520, "tree");
+            bounds.create(520, 600, "tree");
+            bounds.create(520, 690, "tree");
+            bounds.create(520, 780, "tree");
+            bounds.create(520, 870, "tree");
+            bounds.create(520, 960, "tree");
+            bounds.create(520, 1050, "tree");
+            bounds.create(520, 1140, "tree");
+            bounds.create(520, 1250, "tree");
+            bounds.create(520, 1340, "tree");
+            bounds.create(450, 1340, "tree");
+            bounds.create(380, 1340, "tree");
+            bounds.create(310, 1340, "tree");
+            bounds.create(240, 1340, "tree");
+            bounds.create(240, 1340, "tree"); */
+/*
+            for (var i = 100; i < 1500; i += 50)
+            {
+            	for (var j = 100; j < 1500; j += 50)
+            	{
+            		if (i % 3 == 0 && (i % 4 == 0))
+            		{
+            			if (i % 2 == 0 && (Math.random() * 10) % 2 == 0)
+            			{
+            				break;
+            			}
+            			bounds.create(i, j, "tree");
+            		}
+
+            		if ((j % 4 == 0) && (j % 5 == 0))
+            		{
+            			bounds.create(i, j, "tree");
+            		}
+            	}
+            }*/
+
+            /**
+            *
+            *	Code for random tree on the map
+            *	Needs to be edited as it isn't random enough
+            *  	and there are a lot of overlaps
+            **/
+            for (var i = 0; i < 100; i++)
+            {
+            	var x = Math.random() * 3200;
+            	var y = Math.random() * 3200;
+            	var counter = 0;
+            	var z = Math.random() * 10;
+
+            	if (i % 2 == 0)
+            	{
+	            	for (var j = 0; j < z; j++)
+	            	{
+	            		bounds.create(x + counter, y + counter, "tree");
+	            		counter += 65;
+	            	}
+
+	            }
+	            else
+	            {
+	            	for (var j = 0; j < z; j++)
+	            	{
+	            		bounds.create(x + counter, y - counter, "tree");
+	            		counter += 65;
+	            	}
+	            }
+	            counter = 0;
+            }
+
             bounds.forEach(function(tree) {
                 tree.body.immovable = true;
+                tree.body.setSize(25, 25, 50, 50);
             });
 
             socket.emit("joinGame", { id: id, usn: username,
@@ -135,32 +208,32 @@ $(function() {
         var isMoving = false;
         var attacked = false;
         function update() {
-            player.body.velocity.x = 0;
-            player.body.velocity.y = 0;
+            player.body.velocity.x = 2;		//Originally 0
+            player.body.velocity.y = 2;		//Set to 2 for testing
             game.physics.arcade.collide(player, bounds);
             if (leftKey.isDown) {
-                player.body.velocity.x = -150;
+                player.body.velocity.x = -250;
                 player.animations.play("left");
                 spear.animations.play("left");
                 dir = "left";
                 isMoving = true;
                 attacked = false;
             } else if (rightKey.isDown) {
-                player.body.velocity.x = 150;
+                player.body.velocity.x = 250;		//Originally 150
                 player.animations.play("right");
                 spear.animations.play("right");
                 dir = "right";
                 isMoving = true;
                 attacked = false;
             } else if (upKey.isDown) {
-                player.body.velocity.y = -150;
+                player.body.velocity.y = -250;
                 player.animations.play("up");
                 spear.animations.play("up");
                 dir = "up";
                 isMoving = true;
                 attacked = false;
             } else if (downKey.isDown) {
-                player.body.velocity.y = 150;
+                player.body.velocity.y = 250;
                 player.animations.play("down");
                 spear.animations.play("down");
                 dir = "down";
