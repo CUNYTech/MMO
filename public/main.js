@@ -48,6 +48,7 @@ $(function() {
             game.load.spritesheet("bomb", "images/bomb.png", 64, 64, 8);
             game.load.audio("backGroundMusic", "music/ComeandFindMe.mp3");
             game.load.image("tree", "images/tree.png");
+            game.load.image("poisonnessTerrain", "images/poisonessTerrain.jpg");
         }
 
         function create() {
@@ -156,6 +157,11 @@ $(function() {
             		}
             	}
             }*/
+
+            //Overlaps sprites!! Need fixing!!
+            var ptX = Math.random() * 3200;
+            var ptY = Math.random() * 3200;
+            bounds.create(ptX, ptY, "poisonnessTerrain");
 
             /**
             *
