@@ -233,12 +233,11 @@ io.on("connection", function(socket) { // event handler on connection
     socket.on("joinGame", function(data) {
         console.log("Player " + data.id + " joined the game");
         clients[data.id] = { id: data.id, username: data.usn,
-            position: data.position, equips: data.equips };
-        console.log(data.usn);
+            position: data.position };
 
         for (var c in clients) {
             io.sockets.emit("spawnPlayer", { id: clients[c].id,
-                position: clients[c].position, equips: clients[c].equips });
+                position: clients[c].position });
         }
     });
 
@@ -248,8 +247,7 @@ io.on("connection", function(socket) { // event handler on connection
             clients[data.id].position = data.position;
             io.sockets.emit("updatePlayerPosition", { id: data.id, position:
                 data.position, direction: data.direction,
-                moving: data.moving, attacked: data.attacked,
-                weapon: data.weapon });
+                moving: data.moving, attack: data.attack });
         }
     });
 

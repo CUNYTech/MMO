@@ -23,7 +23,6 @@ $(function() {
 
     //Game variables
     var playerStorage = {};
-    var myEquipment = {};
 
     $("#connectionCount").hide();
     $("#chat").hide();
@@ -39,13 +38,12 @@ $(function() {
 
         function preload() {
             game.load.image("background", "images/maplg.png");
-            game.load.spritesheet("player", "images/base_character.png", 64,
-                64, 273);
+            game.load.spritesheet("player", "images/character.png", 64, 64,
+                273);
+
+            game.load.spritesheet("fireball", "images/fireball.png", 64, 64,
+                64);
             game.load.image('healthBar', 'images/health.png');
-            
-            game.load.spritesheet("spear", "images/spear.png", 64, 64, 273);
-            game.load.spritesheet("dagger", "images/dagger.png", 64, 64, 273);
-            game.load.spritesheet("bomb", "images/bomb.png", 64, 64, 8);
             game.load.audio("backGroundMusic", "music/ComeandFindMe.mp3");
             game.load.image("tree", "images/tree.png");
             game.load.image("poisonnessTerrain", "images/poisonessTerrain.jpg");
@@ -71,19 +69,14 @@ $(function() {
             rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
             upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
             downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-            spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+            jKey = game.input.keyboard.addKey(Phaser.Keyboard.J);
+            kKey = game.input.keyboard.addKey(Phaser.Keyboard.K);
 
             loadAnimationFrames(player);
             
             // add nametag
             // todo: center this properly
             player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
-            
-            
-            spear = game.add.sprite(0, 0, "spear", 130);
-            loadAnimationFrames(spear);
-
-            player.addChild(spear);
             
             function addHPBar(sprite, health) {
                 // hp defaults to 1 and maxHealth defaults to undefined
@@ -106,8 +99,6 @@ $(function() {
             };
 
             game.camera.follow(player);
-
-            myEquipment["weapon"] = "spear";
 
             bounds = game.add.physicsGroup();
             for (var i = -30; i < 3200; i += 90) { //horizontal bounds
@@ -202,68 +193,74 @@ $(function() {
             });
 
             socket.emit("joinGame", { id: id, usn: username,
-                position: player.position,
-                weapon: "spear", equips: myEquipment });
+                position: player.position });
 
             //bomb = game.add.sprite(0, 0, "bomb", 0);
             //bomb.animations.add("explode", [1, 2, 3, 4, 5, 6, 7], 15, true);
             //bomb.animations.play("explode");
         }
 
-        var dir = "down";
+        var dir = "";
         var isMoving = false;
-        var attacked = false;
+        var attack = null;
         function update() {
-            player.body.velocity.x = 2;		//Originally 0
-            player.body.velocity.y = 2;		//Set to 2 for testing
+            player.body.velocity.x = 0;
+            player.body.velocity.y = 0;
             game.physics.arcade.collide(player, bounds);
             if (leftKey.isDown) {
-                player.body.velocity.x = -250;
+                player.body.velocity.x = -150;
                 player.animations.play("left");
-                spear.animations.play("left");
                 dir = "left";
                 isMoving = true;
-                attacked = false;
+                attack = false;
             } else if (rightKey.isDown) {
-                player.body.velocity.x = 250;		//Originally 150
+                player.body.velocity.x = 150;
                 player.animations.play("right");
-                spear.animations.play("right");
                 dir = "right";
                 isMoving = true;
-                attacked = false;
+                attack = false;
             } else if (upKey.isDown) {
-                player.body.velocity.y = -250;
+                player.body.velocity.y = -150;
                 player.animations.play("up");
-                spear.animations.play("up");
                 dir = "up";
                 isMoving = true;
-                attacked = false;
+                attack = false;
             } else if (downKey.isDown) {
-                player.body.velocity.y = 250;
+                player.body.velocity.y = 150;
                 player.animations.play("down");
-                spear.animations.play("down");
                 dir = "down";
                 isMoving = true;
-                attacked = false;
-            } else if (spaceKey.isDown) {
-                var atk = getAttackStr(myEquipment.weapon);
-                player.animations.play(atk + dir);
-                spear.animations.play(atk + dir);
+                attack = false;
+            } else if (jKey.isDown) {
+                player.animations.play("thrust_" + dir);
                 isMoving = false;
-                attacked = true;
+                attack = "thrust_";
+            } else if (kKey.isDown) {
+                var index;
+                if (dir === "left") { index = 0; }
+                else if (dir === "right") { index = 32; }
+                else if (dir === "up") { index = 16; }
+                else { index = 48; }
+                var fireball = game.add.sprite(player.x, player.y, "fireball",
+                    index);
+                game.physics.enable(fireball, Phaser.Physics.ARCADE);
+                if (dir === "left") { fireball.body.velocity.x = -1200; }
+                else if (dir === "right") { fireball.body.velocity.x = 1200; }
+                else if (dir === "up") { fireball.body.velocity.y = -1200; }
+                else { fireball.body.velocity.y = 1200; }
+                isMoving = false;
+                attack = "shoot_";
             } else {
                 player.animations.stop();
-                spear.animations.stop();
                 isMoving = false;
-                attacked = false;
-                if (dir === "left") { player.frame = spear.frame = 117; }
-                else if (dir === "right") { player.frame = spear.frame = 143; }
-                else if (dir === "up") { player.frame = spear.frame = 104; }
-                else { player.frame = spear.frame = 130; }
+                attack = false;
+                if (dir === "left") { player.frame = 117; }
+                else if (dir === "right") { player.frame  = 143; }
+                else if (dir === "up") { player.frame  = 104; }
+                else { player.frame  = 130; }
             }
             socket.emit("playerMovement", { id: id, position: player.position,
-                direction: dir, moving: isMoving, attacked: attacked, weapon:
-                myEquipment.weapon });
+                direction: dir, moving: isMoving, attack: attack });
             for (var p in playerStorage) { //WTF this is the only way to do it
                 game.physics.arcade.collide(player, playerStorage[p].player);
             }
@@ -326,50 +323,47 @@ $(function() {
             playerStorage[data.id].player.position = data.position;
             if (data.moving) {
                 playerStorage[data.id].player.animations.play(data.direction);
-                playerStorage[data.id].weapon.animations.play(data.direction);
-            } else if (data.attacked) {
-                var atk = getAttackStr(data.weapon);
-                playerStorage[data.id].player.animations.play(atk +
+            } else if (data.attack === "thrust_") {
+                playerStorage[data.id].player.animations.play("thrust_" +
                     data.direction);
-                playerStorage[data.id].weapon.animations.play(atk +
-                    data.direction);
+            } else if (data.attack === "shoot_") {
+                if (data.direction === "left") { index = 0; }
+                else if (data.direction === "right") { index = 32; }
+                else if (data.direction === "up") { index = 16; }
+                else { index = 48; }
+                var fireball = game.add.sprite(
+                    playerStorage[data.id].player.x,
+                    playerStorage[data.id].player.y, "fireball", index);
+                game.physics.enable(fireball, Phaser.Physics.ARCADE);
+                if (data.direction === "left") {
+                    fireball.body.velocity.x = -1200;
+                } else if (data.direction === "right") {
+                    fireball.body.velocity.x = 1200;
+                } else if (data.direction === "up") {
+                    fireball.body.velocity.y = -1200;
+                } else { fireball.body.velocity.y = 1200; }
             } else {
                 if (data.direction === "left") {
                     playerStorage[data.id].player.frame = 117;
-                    playerStorage[data.id].weapon.frame = 117;
                 } else if (data.direction === "right") {
-                    playerStorage[data.id].player.frame = 143;
-                    playerStorage[data.id].weapon.frame = 143;
+                    playerStorage[data.id].player.frame = 143;            
                 } else if (data.direction === "up") {
-                    playerStorage[data.id].player.frame = 104;
-                    playerStorage[data.id].weapon.frame = 104;
+                    playerStorage[data.id].player.frame = 104;            
                 } else {
-                    playerStorage[data.id].player.frame = 130;
-                    playerStorage[data.id].weapon.frame = 130;
+                    playerStorage[data.id].player.frame = 130;            
                 }
-                playerStorage[data.id].player.animations.stop();
-                playerStorage[data.id].weapon.animations.stop();
+                playerStorage[data.id].player.animations.stop();        
             }
         }
     });
 
-    Player = function(id, game, position, equips) {
+    Player = function(id, game, position) {
         this.player = game.add.sprite(position.x, position.y, "player");
         loadAnimationFrames(this.player);
         game.physics.arcade.enable(this.player); //prevent player overlap
         this.player.body.setSize(32, 48, 16, 14); //tree
         this.player.body.immovable = true;
         this.player.body.moves = false;
-
-        this.equips = null;
-
-        for (var e in equips) {
-            if (e == "weapon") {
-                this.weapon = game.add.sprite(0, 0, equips.weapon, 130);
-                loadAnimationFrames(this.weapon);
-                this.player.addChild(this.weapon);
-            }
-        }
     };
 
     function loadAnimationFrames(mapObject) {
