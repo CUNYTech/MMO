@@ -59,7 +59,24 @@ $(function() {
 
             //player = game.add.sprite(Math.floor((Math.random() * 3200)),
             //    Math.floor((Math.random() * 2400)), "player", 131);
-            player = game.add.sprite(200, 200, "player", 130);
+            var randLocation = Math.floor(Math.random() * 4);
+            if (randLocation === 0)
+            {
+            	player = game.add.sprite(200, 200, "player", 130);	
+            }
+            else if (randLocation === 1)
+            {
+            	player = game.add.sprite(3000, 200, "player", 130);
+            }
+            else if (randLocation === 2)
+            {
+            	player = game.add.sprite(200, 2200, "player", 130);
+            }
+            else
+            {
+            	player = game.add.sprite(3000, 2200, "player", 130);
+            }
+            
             game.physics.arcade.enable(player);
             player.body.collideWorldBounds = true;
 
@@ -109,11 +126,12 @@ $(function() {
                 bounds.create(-30, i, "tree");
                 bounds.create(3120, i, "tree");
             }
-            /*bounds.create(300, 300, "tree");
-            bounds.create(355, 355, "tree");
-            bounds.create(410, 410, "tree");
-            bounds.create(465, 465, "tree");
-            bounds.create(520, 520, "tree");
+            
+            bounds.create(300, 300, "tree");
+            bounds.create(300, 375, "tree");
+            bounds.create(300, 450, "tree");
+            bounds.create(300, 525, "tree");
+            bounds.create(300, 600, "tree");
             bounds.create(520, 600, "tree");
             bounds.create(520, 690, "tree");
             bounds.create(520, 780, "tree");
@@ -127,69 +145,42 @@ $(function() {
             bounds.create(380, 1340, "tree");
             bounds.create(310, 1340, "tree");
             bounds.create(240, 1340, "tree");
-            bounds.create(240, 1340, "tree"); */
-/*
-            for (var i = 100; i < 1500; i += 50)
+            bounds.create(240, 1340, "tree");
+            bounds.create(300, 700, "tree");
+            bounds.create(235, 700, "tree");
+            bounds.create(170, 700, "tree"); 
+            bounds.create(105, 700, "tree");
+            bounds.create(40, 700, "tree");
+            bounds.create(375, 525, "tree");
+            bounds.create(450, 525, "tree");
+            bounds.create(525, 525, "tree");
+            bounds.create(600, 525, "tree");
+            bounds.create(675, 525, "tree");
+            bounds.create(225, 300, "tree");
+            bounds.create(525, 300, "tree");
+            bounds.create(600, 300, "tree");
+            bounds.create(675, 300, "tree");
+            bounds.create(750, 300, "tree");
+            bounds.create(825, 300, "tree");
+            bounds.create(900, 300, "tree");
+            bounds.create(900, 215, "tree");
+            bounds.create(900, 130, "tree");
+            bounds.create(900, 45, "tree");
+
+            for (var i = 700; i < 2700; i += 80)
             {
-            	for (var j = 100; j < 1500; j += 50)
-            	{
-            		if (i % 3 == 0 && (i % 4 == 0))
-            		{
-            			if (i % 2 == 0 && (Math.random() * 10) % 2 == 0)
-            			{
-            				break;
-            			}
-            			bounds.create(i, j, "tree");
-            		}
-
-            		if ((j % 4 == 0) && (j % 5 == 0))
-            		{
-            			bounds.create(i, j, "tree");
-            		}
-            	}
-            }*/
-
-            //Overlaps sprites!! Need fixing!!
-            var ptX = Math.random() * 3200;
-            var ptY = Math.random() * 3200;
-            bounds.create(ptX, ptY, "poisonnessTerrain");
-
-            /**
-            *
-            *	Code for random tree on the map
-            *	Needs to be edited as it isn't random enough
-            *  	and there are a lot of overlaps
-            **/
-            for (var i = 0; i < 100; i++)
-            {
-            	var x = Math.random() * 3200;
-            	var y = Math.random() * 3200;
-            	var counter = 0;
-            	var z = Math.random() * 10;
-
-            	if (i % 2 == 0)
-            	{
-	            	for (var j = 0; j < z; j++)
-	            	{
-	            		bounds.create(x + counter, y + counter, "tree");
-	            		counter += 65;
-	            	}
-
-	            }
-	            else
-	            {
-	            	for (var j = 0; j < z; j++)
-	            	{
-	            		bounds.create(x + counter, y - counter, "tree");
-	            		counter += 65;
-	            	}
-	            }
-	            counter = 0;
+            	bounds.create(i, 1600, "tree");
+            	bounds.create(i, 1200, "tree");
+            	bounds.create(i, 800, "tree");
             }
+
+            
+
+            bounds.create(1200, 1200, "poisonnessTerrain");
 
             bounds.forEach(function(tree) {
                 tree.body.immovable = true;
-                tree.body.setSize(25, 25, 50, 50);
+                tree.body.setSize(30, 30, 50, 50);
             });
 
             socket.emit("joinGame", { id: id, usn: username,
