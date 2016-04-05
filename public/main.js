@@ -60,15 +60,15 @@ $(function() {
             //player = game.add.sprite(Math.floor((Math.random() * 3200)),
             //    Math.floor((Math.random() * 2400)), "player", 131);
             var randLocation = Math.floor(Math.random() * 4);
-            if (randLocation === 0)
+            if (randLocation == 0)
             {
             	player = game.add.sprite(200, 200, "player", 130);	
             }
-            else if (randLocation === 1)
+            else if (randLocation == 1)
             {
             	player = game.add.sprite(3000, 200, "player", 130);
             }
-            else if (randLocation === 2)
+            else if (randLocation == 2)
             {
             	player = game.add.sprite(200, 2200, "player", 130);
             }
@@ -127,54 +127,20 @@ $(function() {
                 bounds.create(3120, i, "tree");
             }
             
-            bounds.create(300, 300, "tree");
-            bounds.create(300, 375, "tree");
-            bounds.create(300, 450, "tree");
-            bounds.create(300, 525, "tree");
-            bounds.create(300, 600, "tree");
-            bounds.create(520, 600, "tree");
-            bounds.create(520, 690, "tree");
-            bounds.create(520, 780, "tree");
-            bounds.create(520, 870, "tree");
-            bounds.create(520, 960, "tree");
-            bounds.create(520, 1050, "tree");
-            bounds.create(520, 1140, "tree");
-            bounds.create(520, 1250, "tree");
-            bounds.create(520, 1340, "tree");
-            bounds.create(450, 1340, "tree");
-            bounds.create(380, 1340, "tree");
-            bounds.create(310, 1340, "tree");
-            bounds.create(240, 1340, "tree");
-            bounds.create(240, 1340, "tree");
-            bounds.create(300, 700, "tree");
-            bounds.create(235, 700, "tree");
-            bounds.create(170, 700, "tree"); 
-            bounds.create(105, 700, "tree");
-            bounds.create(40, 700, "tree");
-            bounds.create(375, 525, "tree");
-            bounds.create(450, 525, "tree");
-            bounds.create(525, 525, "tree");
-            bounds.create(600, 525, "tree");
-            bounds.create(675, 525, "tree");
-            bounds.create(225, 300, "tree");
-            bounds.create(525, 300, "tree");
-            bounds.create(600, 300, "tree");
-            bounds.create(675, 300, "tree");
-            bounds.create(750, 300, "tree");
-            bounds.create(825, 300, "tree");
-            bounds.create(900, 300, "tree");
-            bounds.create(900, 215, "tree");
-            bounds.create(900, 130, "tree");
-            bounds.create(900, 45, "tree");
+            var counter = 2100;
 
-            for (var i = 700; i < 2700; i += 80)
+            for (var i = 300; i < 2100; i += 100)
             {
-            	bounds.create(i, 1600, "tree");
-            	bounds.create(i, 1200, "tree");
-            	bounds.create(i, 800, "tree");
-            }
-
-            
+            	if (!(i >= 1200 &&  i <= 1400))
+            	{
+            		bounds.create(i, i, "tree");
+            		bounds.create (counter, i, "tree");
+            		bounds.create (i, 1500, "tree");
+            		bounds.create (1200, i, "tree");
+            	}
+            	
+            	counter -= 100;
+            } 
 
             bounds.create(1200, 1200, "poisonnessTerrain");
 
