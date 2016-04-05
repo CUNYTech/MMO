@@ -59,7 +59,7 @@ $(function() {
 
             //player = game.add.sprite(Math.floor((Math.random() * 3200)),
             //    Math.floor((Math.random() * 2400)), "player", 131);
-            var randLocation = Math.floor(Math.random() * 4);
+            /*var randLocation = Math.floor(Math.random() * 4);
             if (randLocation == 0)
             {
             	player = game.add.sprite(200, 200, "player", 130);	
@@ -75,10 +75,14 @@ $(function() {
             else
             {
             	player = game.add.sprite(3000, 2200, "player", 130);
-            }
+            }*/
+
+            player = game.add.sprite(40, 40, "player", 130);
             
             game.physics.arcade.enable(player);
             player.body.collideWorldBounds = true;
+
+            fireballs = game.add.physicsGroup();
 
             player.body.setSize(32, 48, 16, 14);
 
@@ -161,6 +165,15 @@ $(function() {
         var isMoving = false;
         var attack = null;
         function update() {
+            if (game.physics.arcade.collide(player, fireballs,
+                function(player, fireball) {
+                    fireball.kill();
+                },
+                function(player, fireball) {
+                    return true;
+                }, this)) {
+                //empty
+            }
             player.body.velocity.x = 0;
             player.body.velocity.y = 0;
             game.physics.arcade.collide(player, bounds);
@@ -198,9 +211,10 @@ $(function() {
                 else if (dir === "right") { index = 32; }
                 else if (dir === "up") { index = 16; }
                 else { index = 48; }
-                var fireball = game.add.sprite(player.x, player.y, "fireball",
+                //var fireball = game.add.sprite(player.x, player.y, "fireball",
+                //    index);
+                var fireball = fireballs.create(player.x, player.y, "fireball",
                     index);
-                game.physics.enable(fireball, Phaser.Physics.ARCADE);
                 if (dir === "left") { fireball.body.velocity.x = -1200; }
                 else if (dir === "right") { fireball.body.velocity.x = 1200; }
                 else if (dir === "up") { fireball.body.velocity.y = -1200; }
@@ -220,6 +234,16 @@ $(function() {
                 direction: dir, moving: isMoving, attack: attack });
             for (var p in playerStorage) { //WTF this is the only way to do it
                 game.physics.arcade.collide(player, playerStorage[p].player);
+                if (game.physics.arcade.collide(playerStorage[p].player,
+                    fireballs,
+                    function(player, fireball) {
+                        fireball.kill();
+                    },
+                    function() {
+                        return true;
+                    }, this)) {
+                    //empty
+                }
             }
         }
         
@@ -288,10 +312,14 @@ $(function() {
                 else if (data.direction === "right") { index = 32; }
                 else if (data.direction === "up") { index = 16; }
                 else { index = 48; }
-                var fireball = game.add.sprite(
+                /*var fireball = game.add.sprite(
                     playerStorage[data.id].player.x,
                     playerStorage[data.id].player.y, "fireball", index);
-                game.physics.enable(fireball, Phaser.Physics.ARCADE);
+                game.physics.enable(fireball, Phaser.Physics.ARCADE);*/
+                var fireball = fireballs.create(
+                    playerStorage[data.id].player.x,
+                    playerStorage[data.id].player.y, "fireball", index);
+
                 if (data.direction === "left") {
                     fireball.body.velocity.x = -1200;
                 } else if (data.direction === "right") {
