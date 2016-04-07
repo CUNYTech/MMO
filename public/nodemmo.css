@@ -24,16 +24,6 @@ body {
     margin-right: auto;
 }
 
-#chat {
-    width: 800px;
-    height: 300px;
-    background-color: #000000;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #loadPageOptions {
     z-index: 3;
     border: 2px solid #93A1A1;
@@ -87,4 +77,30 @@ body {
 #fadingMsg {
     position: absolute;
     color: #586E75;
+}
+
+/* chat */
+#chat {
+    width: 800px;
+    height: 300px;
+    background-color: #000000;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#inputMessage {
+  bottom: 0;
+  height: auto;
+  left: 0;
+  outline: none;
+  right: 0;
+  width: 800px;
+}
+.log {
+  color: gray;
+  font-size: 70%;
+  margin: 5px;
+  text-align: center;
 }

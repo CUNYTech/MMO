@@ -396,6 +396,10 @@ $(function() {
             ip: ip,
             browser: browser
         });
+        var message = "Welcome to Combat Life!";
+        log(message, {
+            prepend: true
+        });
         return false; //don't reload document
     });
 
@@ -465,18 +469,84 @@ $(function() {
         });
     });
 
-    // CHAT EVENTS
-    // event handler for sending message
-    $("#chatBox").on("submit", function(e) {
-        socket.emit("sendMessage", {
-            msg: $("#message").val()
-        });
-        return false; //don't reload document
+    // CHAT section
+    // tell the chat clients when a user has logged in
+    socket.on("userLogin", function (data) {
+        log(data.username + ' joined');
     });
 
-    // event handler for receive message
-    socket.on("receiveMessage", function(data) {
+    // tell the chat clients when a user has logged out
+    socket.on("userLeft", function (data) {
+        log(data.username + ' left');
+    });
+    // prevents markup from being injected into message
+    function cleanInput (input) {
+        return $('<div/>').text(input).text();
+    }
 
+    // creates log messages (welcome message, user sign in/out)
+    function log (message, options) {
+        var $el = $('<li>').addClass('log').text(message);
+        addMessageElement($el, options);
+    }
+
+    function addChatMessage (data, options) {
+        options = options || {};
+        
+        var $usernameDiv = $('<span class="username"/>')
+            .text(data.username);
+        var $messageBodyDiv = $('<span class="messageBody">')
+            .text(data.message);
+
+        var $messageDiv = $('<li class="message"/>')
+            .data('username', data.username)
+            .addClass(typingClass)
+            .append($usernameDiv, $messageBodyDiv);
+
+        addMessageElement($messageDiv, options);
+    }
+
+    function addMessageElement (el, options) {
+        var $el = $(el);
+
+        // Setup default options
+        if (!options) {
+            options = {};
+        }
+        if (typeof options.prepend === 'undefined') {
+            options.prepend = false;
+        }
+
+        if (options.prepend) {
+            $("#messages").prepend($el);
+        } else {
+            $("#messages").append($el);
+        }
+        $("#messages")[0].scrollTop = $("#messages")[0].scrollHeight;
+    }
+
+    function sendMessage () {
+        var message = $("#inputMessage").val();
+        // Prevent markup from being injected into the message
+        message = cleanInput(message);
+        // if there is a non-empty message and a socket connection
+        if (message) {
+            $("#inputMessage").val('');
+            addChatMessage({
+                username: username,
+                message: message
+            });
+            // tell server to execute 'new message' and send along one parameter
+            socket.emit('sendMessage', message);
+        }
+    }
+
+    // sending message on enter
+    $(window).keydown(function (event) {
+    // When the client hits ENTER on their keyboard
+        if (event.which === 13) {
+            sendMessage();
+        }
     });
 
     //Event handler for when server sends registration status response
@@ -578,7 +648,10 @@ $(function() {
     //Close window handler
     $(window).on("beforeunload", function() {
         if (id > 0) { player.destroy(); }
-        socket.emit("closeWindow", { id: id });
+        socket.emit("closeWindow", { 
+            username: username,
+            id: id 
+        });
     });
 
 

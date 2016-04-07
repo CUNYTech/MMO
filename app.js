@@ -106,6 +106,9 @@ io.on("connection", function(socket) { // event handler on connection
                             } else {
                                 status = "Authenticated successfully";
                                 players_online++;
+                                socket.broadcast.emit("userLogin",{
+                                    username: socket.usn
+                                });
                                 client.query({
                                     text: "UPDATE accounts SET last_known_ip" +
                                         "=$1 WHERE username=$2",
@@ -219,14 +222,13 @@ io.on("connection", function(socket) { // event handler on connection
     });
 
     // CHAT
-    // send message
-    socket.emit("")
     // receive message
-    socket.on("sendMessage", function(data) {
-        console.log(data.msg);
-        for (var c in clients) {
-            io.sockets.emit("")
-        }
+    socket.on('sendMessage', function (data) {
+        // we tell the client to execute 'new message'
+        socket.broadcast.emit('new message', {
+            username: socket.username,
+            message: data
+        });
     });
 
     //Join game handler
@@ -286,6 +288,8 @@ io.on("connection", function(socket) { // event handler on connection
             io.sockets.emit("adjustPopulation", { population: open_connections,
                 players_online: players_online });
         };
+
+        socket.broadcast.emit("userLeft", { username: socket.username });
 
         handleClose(function() {
             removeAfter(function() {
