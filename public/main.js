@@ -167,6 +167,7 @@ $(function() {
         function update() {
             if (game.physics.arcade.collide(player, fireballs,
                 function(player, fireball) {
+                    socket.emit("takeDamage", { id: id });
                     fireball.kill();
                 },
                 function(player, fireball) {
@@ -296,6 +297,12 @@ $(function() {
             playerStorage[data.id].player.destroy();
             delete playerStorage[data.id];
         }
+    });
+
+    socket.on("killPlayer", function(data) {
+        if (data.id != id) { return; }
+        player.kill();
+        alert("lol noob");
     });
 
     socket.on("updatePlayerPosition", function(data) {

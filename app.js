@@ -235,11 +235,18 @@ io.on("connection", function(socket) { // event handler on connection
     socket.on("joinGame", function(data) {
         console.log("Player " + data.id + " joined the game");
         clients[data.id] = { id: data.id, username: data.usn,
-            position: data.position };
+            position: data.position, hp: 100 };
 
         for (var c in clients) {
             io.sockets.emit("spawnPlayer", { id: clients[c].id,
                 position: clients[c].position });
+        }
+    });
+
+    socket.on("takeDamage", function(data) {
+        clients[data.id].hp -= 10;
+        if (clients[data.id].hp <= 0) {
+            io.sockets.emit("killPlayer", { id: data.id });
         }
     });
 
