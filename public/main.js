@@ -300,9 +300,11 @@ $(function() {
     });
 
     socket.on("killPlayer", function(data) {
-        if (data.id != id) { return; }
+        if (data.id != id) {
+            playerStorage[data.id].player.kill();
+            return;
+        }
         player.kill();
-        alert("lol noob");
     });
 
     socket.on("updatePlayerPosition", function(data) {
