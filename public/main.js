@@ -57,6 +57,11 @@ $(function() {
             game.world.setBounds(0, 0, 3200, 2400);
             game.physics.startSystem(Phaser.Physics.ARCADE);
 
+            var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
+
+		    //  The Text is positioned at 0, 100
+		    text = game.add.text(100, 100, "Arrow Keys to move \n[ j ] poke \n[ k ] shoot stuffs \n[ l ] defend (developing)", style);
+
             //player = game.add.sprite(Math.floor((Math.random() * 3200)),
             //    Math.floor((Math.random() * 2400)), "player", 131);
             /*var randLocation = Math.floor(Math.random() * 4);
