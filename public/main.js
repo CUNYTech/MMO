@@ -479,6 +479,16 @@ $(function() {
     socket.on("userLeft", function (data) {
         log(data.username + ' left');
     });
+
+    socket.on("new message", function(data){
+    	if(username != data.usn){
+    		addChatMessage({
+    			username: data.usn,
+    			message: data.message
+    		});
+    	}
+    });
+
     // prevents markup from being injected into message
     function cleanInput (input) {
         return $('<div/>').text(input).text();
@@ -500,7 +510,6 @@ $(function() {
 
         var $messageDiv = $('<li class="message"/>')
             .data('username', data.username)
-            .addClass(typingClass)
             .append($usernameDiv, $messageBodyDiv);
 
         addMessageElement($messageDiv, options);
@@ -537,7 +546,7 @@ $(function() {
                 message: message
             });
             // tell server to execute 'new message' and send along one parameter
-            socket.emit('sendMessage', message);
+            socket.emit('sendMessage',{ usn: username, message: message });
         }
     }
 
@@ -556,6 +565,8 @@ $(function() {
         }
         flashMessage(data.status);
     });
+
+
 
     //Change password handler
     var showChangePwd = false;

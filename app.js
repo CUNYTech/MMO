@@ -107,7 +107,7 @@ io.on("connection", function(socket) { // event handler on connection
                                 status = "Authenticated successfully";
                                 players_online++;
                                 socket.broadcast.emit("userLogin",{
-                                    username: socket.usn
+                                    username: data.usn
                                 });
                                 client.query({
                                     text: "UPDATE accounts SET last_known_ip" +
@@ -225,9 +225,9 @@ io.on("connection", function(socket) { // event handler on connection
     // receive message
     socket.on('sendMessage', function (data) {
         // we tell the client to execute 'new message'
-        socket.broadcast.emit('new message', {
-            username: socket.username,
-            message: data
+        io.sockets.emit('new message', {
+            usn: data.username,
+            message: data.message
         });
     });
 
@@ -289,7 +289,7 @@ io.on("connection", function(socket) { // event handler on connection
                 players_online: players_online });
         };
 
-        socket.broadcast.emit("userLeft", { username: socket.username });
+        socket.broadcast.emit("userLeft", { username: data.username });
 
         handleClose(function() {
             removeAfter(function() {
