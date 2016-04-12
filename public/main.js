@@ -327,17 +327,19 @@ $(function() {
         if (data.id != id) {
             playerStorage[data.id].player.kill();
             return;
+        } else {
+            alert("lol noob");
+            player.kill();
+            player = null;
+            player = game.add.sprite(100, 100, "player", 130);
+            game.physics.arcade.enable(player);
+            player.body.collideWorldBounds = true;
+            loadAnimationFrames(player);
+            player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
+            game.camera.follow(player);
+            socket.emit("joinGame", { id: id, usn: username,
+                position: player.position });
         }
-        player.kill();
-        player = null;
-        player = game.add.sprite(100, 100, "player", 130);
-        game.physics.arcade.enable(player);
-        player.body.collideWorldBounds = true;
-        loadAnimationFrames(player);
-        player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
-        game.camera.follow(player);
-        socket.emit("joinGame", { id: id, usn: username,
-            position: player.position });
     });
 
     socket.on("updatePlayerPosition", function(data) {
