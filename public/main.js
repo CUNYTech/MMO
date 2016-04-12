@@ -32,6 +32,17 @@ $(function() {
 
     var socket = io();
 
+    function addHPBar(sprite, health) {
+        // hp defaults to 1 and maxHealth defaults to undefined
+        sprite.maxHealth = player.health = health;
+        var healthBar = game.make.sprite(10, -10, 'healthBar');
+        sprite.addChild(healthBar);
+        
+        healthBar.update = function() {
+            healthBar.scale.x = sprite.health/sprite.maxHealth;
+        };
+    }
+
     function runGame() {
         game = new Phaser.Game(800, 600, Phaser.AUTO, "game",
             { preload: preload, create: create, update: update, render:
@@ -105,16 +116,6 @@ $(function() {
             // todo: center this properly
             player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
             
-            function addHPBar(sprite, health) {
-                // hp defaults to 1 and maxHealth defaults to undefined
-                sprite.maxHealth = player.health = health;
-                var healthBar = game.make.sprite(10, -10, 'healthBar');
-                sprite.addChild(healthBar);
-                
-                healthBar.update = function() {
-                    healthBar.scale.x = sprite.health/sprite.maxHealth;
-                };
-            }
             
             addHPBar(player, 100);
             
@@ -174,6 +175,8 @@ $(function() {
         function update() {
             if (game.physics.arcade.collide(player, fireballs,
                 function(player, fireball) {
+                    player.children[1].crop(new Phaser.Rectangle(0, 0, 
+                        player.children[1].width - 3, 11));
                     socket.emit("takeDamage", { id: id });
                     fireball.kill();
                 },
@@ -337,6 +340,7 @@ $(function() {
             loadAnimationFrames(player);
             player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
             game.camera.follow(player);
+            addHPBar(player, 100);
             socket.emit("joinGame", { id: id, usn: username,
                 position: player.position });
         }
