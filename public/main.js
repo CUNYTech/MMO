@@ -23,6 +23,7 @@ $(function() {
 
     //Game variables
     var playerStorage = {};
+    var FIREBALL_COOLDOWN = 3000;
 
     $("#connectionCount").hide();
     $("#chat").hide();
@@ -82,7 +83,7 @@ $(function() {
             	player = game.add.sprite(3000, 2200, "player", 130);
             }*/
 
-            player = game.add.sprite(40, 40, "player", 130);
+            player = game.add.sprite(100, 100, "player", 130);
             
             game.physics.arcade.enable(player);
             player.body.collideWorldBounds = true;
@@ -169,6 +170,7 @@ $(function() {
         var dir = "";
         var isMoving = false;
         var attack = null;
+        var lastShot = new Date().getTime();
         function update() {
             if (game.physics.arcade.collide(player, fireballs,
                 function(player, fireball) {
@@ -212,21 +214,27 @@ $(function() {
                 isMoving = false;
                 attack = "thrust_";
             } else if (kKey.isDown) {
-                var index;
-                if (dir === "left") { index = 0; }
-                else if (dir === "right") { index = 32; }
-                else if (dir === "up") { index = 16; }
-                else { index = 48; }
-                //var fireball = game.add.sprite(player.x, player.y, "fireball",
-                //    index);
-                var fireball = fireballs.create(player.x, player.y, "fireball",
-                    index);
-                if (dir === "left") { fireball.body.velocity.x = -1200; }
-                else if (dir === "right") { fireball.body.velocity.x = 1200; }
-                else if (dir === "up") { fireball.body.velocity.y = -1200; }
-                else { fireball.body.velocity.y = 1200; }
-                isMoving = false;
-                attack = "shoot_";
+                var now = new Date().getTime();
+                if (now - lastShot > FIREBALL_COOLDOWN) {
+                    lastShot = now;
+                    var index;
+                    if (dir === "left") { index = 0; }
+                    else if (dir === "right") { index = 32; }
+                    else if (dir === "up") { index = 16; }
+                    else { index = 48; }
+                    //var fireball = game.add.sprite(player.x, player.y, "fireball",
+                    //    index);
+                    var fireball = fireballs.create(player.x, player.y, "fireball",
+                        index);
+                    if (dir === "left") { fireball.body.velocity.x = -1200; }
+                    else if (dir === "right") { fireball.body.velocity.x = 1200; }
+                    else if (dir === "up") { fireball.body.velocity.y = -1200; }
+                    else { fireball.body.velocity.y = 1200; }
+                    isMoving = false;
+                    attack = "shoot_";
+                } else {
+                    attack = "none_";
+                }
             } else {
                 player.animations.stop();
                 isMoving = false;
@@ -310,6 +318,15 @@ $(function() {
             return;
         }
         player.kill();
+        player = null;
+        player = game.add.sprite(100, 100, "player", 130);
+        game.physics.arcade.enable(player);
+        player.body.collideWorldBounds = true;
+        loadAnimationFrames(player);
+        player.addChild(game.make.text(10, -30, username, {fontSize: 16}));
+        game.camera.follow(player);
+        socket.emit("joinGame", { id: id, usn: username,
+            position: player.position });
     });
 
     socket.on("updatePlayerPosition", function(data) {
