@@ -213,6 +213,17 @@ $(function() {
                 player.animations.play("thrust_" + dir);
                 isMoving = false;
                 attack = "thrust_";
+                var xOffset = player.x;
+                var yOffset = player.y;
+                if (dir === "left") { xOffset -= 32; }
+                else if (dir === "right") { xOffset += 32; }
+                else if (dir === "up") { yOffset -= 32; }
+                else { yOffset += 32; }
+                var strikeHitbox = fireballs.create(xOffset, yOffset,
+                    "player", 7);
+                setTimeout(function() {
+                    strikeHitbox.kill();
+                }, 70);
             } else if (kKey.isDown) {
                 var now = new Date().getTime();
                 if (now - lastShot > FIREBALL_COOLDOWN) {
@@ -338,6 +349,17 @@ $(function() {
             } else if (data.attack === "thrust_") {
                 playerStorage[data.id].player.animations.play("thrust_" +
                     data.direction);
+                var xOffset = playerStorage[data.id].player.x;
+                var yOffset = playerStorage[data.id].player.y;
+                if (data.direction === "left") { xOffset -= 32; }
+                else if (data.direction === "right") { xOffset += 32; }
+                else if (data.direction === "up") { yOffset -= 32; }
+                else { yOffset += 32; }
+                var strikeHitbox = fireballs.create(xOffset, yOffset,
+                    "player", 7);
+                setTimeout(function() {
+                    strikeHitbox.kill();
+                }, 70);
             } else if (data.attack === "shoot_") {
                 if (data.direction === "left") { index = 0; }
                 else if (data.direction === "right") { index = 32; }
