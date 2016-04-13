@@ -20,12 +20,11 @@ body {
     height: 600px;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #messages {
-  height: 100%;
+  list-style: none;
+  height: 93%;
   margin: 0;
   overflow-y: scroll;
   padding: 10px 20px 10px 20px;
@@ -88,23 +87,25 @@ body {
 
 /* chat */
 #chat {
-    width: 800px;
-    height: 300px;
+    width: 300px;
+    height: 600px;
     background-color: #FFFFFF;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    float: right;
+    margin-top: -610px;
+    border:5px solid #586e75;
 }
 
 #inputMessage {
-  bottom: 0;
   height: auto;
   left: 0;
   outline: none;
   right: 0;
-  width: 800px;
+  width: 297px;
+  margin-top: -30px;
 }
+
 .log {
   color: gray;
   font-size: 70%;

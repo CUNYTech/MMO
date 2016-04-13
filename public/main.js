@@ -548,7 +548,7 @@ $(function() {
     function addChatMessage (data, options) {
         options = options || {};
         
-        var $usernameDiv = $('<span class="username"/>')
+        var $usernameDiv = $('<strong><span class="username"/></strong>')
             .text(data.username);
         var $messageBodyDiv = $('<span class="messageBody">')
             .text(data.message);
