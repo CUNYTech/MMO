@@ -296,18 +296,6 @@ $(function() {
         return ret;
     }
 
-    // client receive message
-    socket.emit("sendMessage",function(data){
-        io.socket.emit("receiveMessage", {
-
-        });
-    });
-
-    // client receive message
-    socket.on("receiveMessage",function(data){
-
-    });
-
     socket.on("spawnPlayer", function(data) {
         if (id > 0) {
             if (data.id === id) { return; }
@@ -455,10 +443,6 @@ $(function() {
             ip: ip,
             browser: browser
         });
-        var message = "Welcome to Combat Life!";
-        log(message, {
-            prepend: true
-        });
         return false; //don't reload document
     });
 
@@ -539,10 +523,11 @@ $(function() {
         log(data.username + ' left');
     });
 
+    // receives message with the username and message from backend
     socket.on("new message", function(data){
     	if(username != data.usn){
     		addChatMessage({
-    			username: data.usn,
+    			username: data.usn + ": ",
     			message: data.message
     		});
     	}
@@ -556,7 +541,8 @@ $(function() {
     // creates log messages (welcome message, user sign in/out)
     function log (message, options) {
         var $el = $('<li>').addClass('log').text(message);
-        addMessageElement($el, options);
+        if(id > -1)
+            addMessageElement($el, options);
     }
 
     function addChatMessage (data, options) {
@@ -571,7 +557,8 @@ $(function() {
             .data('username', data.username)
             .append($usernameDiv, $messageBodyDiv);
 
-        addMessageElement($messageDiv, options);
+        if(id > -1)
+            addMessageElement($messageDiv, options);
     }
 
     function addMessageElement (el, options) {
@@ -601,7 +588,7 @@ $(function() {
         if (message) {
             $("#inputMessage").val('');
             addChatMessage({
-                username: username,
+                username: username + ": ",
                 message: message
             });
             // tell server to execute 'new message' and send along one parameter
@@ -680,6 +667,10 @@ $(function() {
             if (data.admin) { $("#connectionCount").show(); }
 
             $("#chat").show();
+            var message = "Welcome to Combat Life!";
+            log(message, {
+                prepend: true
+                });
 
             //Account options
             var $f = $("<p id='showUsn'>" + data.username + "</p>");

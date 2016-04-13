@@ -226,7 +226,7 @@ io.on("connection", function(socket) { // event handler on connection
     socket.on('sendMessage', function (data) {
         // we tell the client to execute 'new message'
         io.sockets.emit('new message', {
-            usn: data.username,
+            usn: data.usn,
             message: data.message
         });
     });
