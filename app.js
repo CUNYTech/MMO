@@ -265,7 +265,6 @@ io.on("connection", function(socket) { // event handler on connection
     //Session closed
     //WTF something is wrong with this; doesn't work with one person online
     socket.on("closeWindow", function(data) {
-
         var handleClose = function(callback) {
             open_connections--;
             if (data.id > 0) {

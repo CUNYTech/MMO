@@ -58,7 +58,6 @@ $(function() {
             game.load.image('healthBar', 'images/health.png');
             game.load.audio("backGroundMusic", "music/ComeandFindMe.mp3");
             game.load.image("tree", "images/tree.png");
-            game.load.image("poisonnessTerrain", "images/poisonessTerrain.jpg");
         }
 
         function create() {
@@ -151,8 +150,6 @@ $(function() {
             	
             	counter -= 100;
             } 
-
-            bounds.create(1200, 1200, "poisonnessTerrain");
 
             bounds.forEach(function(tree) {
                 tree.body.immovable = true;
@@ -285,29 +282,6 @@ $(function() {
         }
     }
 
-<<<<<<< HEAD
-    // client receive message
-    socket.emit("sendMessage",function(data){
-        io.socket.emit("receiveMessage", {
-
-        });
-    });
-
-    // client receive message
-    socket.on("receiveMessage",function(data){
-
-    });
-=======
-    //determine attack based on weapon
-    function getAttackStr(weapon) {
-        var ret = "";
-        switch (weapon) {
-            case "spear": ret = "thrust_"; break;
-            case "dagger": ret = "slash_"; break;
-        }
-        return ret;
-    }
->>>>>>> ca242b54470ef158d2cffec134fb9390dd1bf587
 
     socket.on("spawnPlayer", function(data) {
         if (id > 0) {

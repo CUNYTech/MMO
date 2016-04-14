@@ -43,7 +43,18 @@
         </div>
         <script src="jquery-2.2.0.min.js"></script>
         <script src="socket.io/socket.io.js"></script>
-        <script src="main.js"></script>
+        <script>
+            socket = io();
+            var id = -1;
+            var admin = false;
+            var username;
+            var ip = "";
+            var browser = "Unknown";
+            var player;
+        </script>
+        <script src="main_page.js"></script>
+        <script src="chat_handler.js"></script>
         <script src="phaser.min.js"></script>
+        <script src="game_handler.js"></script>
     </body>
 </html>
