@@ -186,6 +186,8 @@ function update() {
             fireballs,
             function(player, fireball) {
                 fireball.kill();
+                playerStorage[p].children[1].crop(new Phaser.Rectangle(0, 0, 
+                playerStorage[p].children[1].width - 3, 11));
             },
             function() {
                 return true;
