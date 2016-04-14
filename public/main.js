@@ -285,6 +285,7 @@ $(function() {
         }
     }
 
+<<<<<<< HEAD
     // client receive message
     socket.emit("sendMessage",function(data){
         io.socket.emit("receiveMessage", {
@@ -296,6 +297,17 @@ $(function() {
     socket.on("receiveMessage",function(data){
 
     });
+=======
+    //determine attack based on weapon
+    function getAttackStr(weapon) {
+        var ret = "";
+        switch (weapon) {
+            case "spear": ret = "thrust_"; break;
+            case "dagger": ret = "slash_"; break;
+        }
+        return ret;
+    }
+>>>>>>> ca242b54470ef158d2cffec134fb9390dd1bf587
 
     socket.on("spawnPlayer", function(data) {
         if (id > 0) {
@@ -443,10 +455,6 @@ $(function() {
             ip: ip,
             browser: browser
         });
-        var message = "Welcome to Combat Life!";
-        log(message, {
-            prepend: true
-        });
         return false; //don't reload document
     });
 
@@ -527,10 +535,11 @@ $(function() {
         log(data.username + ' left');
     });
 
+    // receives message with the username and message from backend
     socket.on("new message", function(data){
     	if(username != data.usn){
     		addChatMessage({
-    			username: data.usn,
+    			username: data.usn + ": ",
     			message: data.message
     		});
     	}
@@ -544,13 +553,14 @@ $(function() {
     // creates log messages (welcome message, user sign in/out)
     function log (message, options) {
         var $el = $('<li>').addClass('log').text(message);
-        addMessageElement($el, options);
+        if(id > -1)
+            addMessageElement($el, options);
     }
 
     function addChatMessage (data, options) {
         options = options || {};
         
-        var $usernameDiv = $('<span class="username"/>')
+        var $usernameDiv = $('<strong><span class="username"/></strong>')
             .text(data.username);
         var $messageBodyDiv = $('<span class="messageBody">')
             .text(data.message);
@@ -559,7 +569,8 @@ $(function() {
             .data('username', data.username)
             .append($usernameDiv, $messageBodyDiv);
 
-        addMessageElement($messageDiv, options);
+        if(id > -1)
+            addMessageElement($messageDiv, options);
     }
 
     function addMessageElement (el, options) {
@@ -589,7 +600,7 @@ $(function() {
         if (message) {
             $("#inputMessage").val('');
             addChatMessage({
-                username: username,
+                username: username + ": ",
                 message: message
             });
             // tell server to execute 'new message' and send along one parameter
@@ -668,6 +679,10 @@ $(function() {
             if (data.admin) { $("#connectionCount").show(); }
 
             $("#chat").show();
+            var message = "Welcome to Combat Life!";
+            log(message, {
+                prepend: true
+                });
 
             //Account options
             var $f = $("<p id='showUsn'>" + data.username + "</p>");
