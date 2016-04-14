@@ -239,7 +239,9 @@ io.on("connection", function(socket) { // event handler on connection
 
         for (var c in clients) {
             io.sockets.emit("spawnPlayer", { id: clients[c].id,
-                position: clients[c].position });
+                position: clients[c].position,
+                name: clients[c].username,
+                hp: clients[c].hp });
         }
     });
 

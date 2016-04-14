@@ -20,8 +20,6 @@ body {
     height: 600px;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #messages {
@@ -93,8 +91,7 @@ body {
     background-color: #FFFFFF;
     left: 0;
     right: 0;
-    margin-left: auto;
-    margin-right: auto;
+    float: right;
 }
 
 #inputMessage {

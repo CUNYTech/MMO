@@ -72,7 +72,6 @@ $(function() {
             var style = { font: "bold 32px Arial", fill: "#fff", boundsAlignH: "center", boundsAlignV: "middle" };
 
 		    //  The Text is positioned at 0, 100
-		    text = game.add.text(100, 100, "Arrow Keys to move \n[ j ] poke \n[ k ] shoot stuffs \n[ l ] defend (developing)", style);
 
             //player = game.add.sprite(Math.floor((Math.random() * 3200)),
             //    Math.floor((Math.random() * 2400)), "player", 131);
@@ -286,16 +285,6 @@ $(function() {
         }
     }
 
-    //determine attack based on weapon
-    function getAttackStr(weapon) {
-        var ret = "";
-        switch (weapon) {
-            case "spear": ret = "thrust_"; break;
-            case "dagger": ret = "slash_"; break;
-        }
-        return ret;
-    }
-
     // client receive message
     socket.emit("sendMessage",function(data){
         io.socket.emit("receiveMessage", {
@@ -313,6 +302,8 @@ $(function() {
             if (data.id === id) { return; }
 
             var p = new Player(data.id, game, data.position, data.equips);
+            p.addChild(game.make.text(10, -30, data.name, {fontSize: 16}));
+            addHPBar(p, 100);
             playerStorage[data.id] = p;
 
             player.bringToTop();
@@ -371,10 +362,6 @@ $(function() {
                 else if (data.direction === "right") { index = 32; }
                 else if (data.direction === "up") { index = 16; }
                 else { index = 48; }
-                /*var fireball = game.add.sprite(
-                    playerStorage[data.id].player.x,
-                    playerStorage[data.id].player.y, "fireball", index);
-                game.physics.enable(fireball, Phaser.Physics.ARCADE);*/
                 var fireball = fireballs.create(
                     playerStorage[data.id].player.x,
                     playerStorage[data.id].player.y, "fireball", index);
@@ -408,6 +395,7 @@ $(function() {
         this.player.body.setSize(32, 48, 16, 14); //tree
         this.player.body.immovable = true;
         this.player.body.moves = false;
+        return this.player;
     };
 
     function loadAnimationFrames(mapObject) {
