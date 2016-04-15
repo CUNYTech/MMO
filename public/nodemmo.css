@@ -93,11 +93,8 @@ body {
     left: 0;
     right: 0;
     float: right;
-<<<<<<< HEAD
-=======
-    margin-top: -610px;
+    margin-top: -620px;
     border:5px solid #586e75;
->>>>>>> ca242b54470ef158d2cffec134fb9390dd1bf587
 }
 
 #inputMessage {
