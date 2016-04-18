@@ -303,7 +303,6 @@ socket.on("killPlayer", function(data) {
         delete playerStorage[data.id];
         return;
     } else {
-        alert("lol noob");
         player.kill();
         player = null;
         player = game.add.sprite(100, 100, "player", 130);
