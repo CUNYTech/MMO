@@ -86,6 +86,7 @@ function create() {
 
     socket.emit("joinGame", { id: id, usn: username,
         position: player.position });
+    game.stage.disableVisibilityChange = true;
 }
 
 var dir = "";
