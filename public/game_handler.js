@@ -28,7 +28,9 @@ function create() {
     game.world.setBounds(0, 0, 3200, 2400);
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
-    player = game.add.sprite(100, 100, "player", 130);
+    player = game.add.sprite(
+        Math.floor((Math.random() * 3200) + 1),
+        Math.floor((Math.random() * 2400) + 1), "player", 130);
     
     game.physics.arcade.enable(player);
     player.body.collideWorldBounds = true;
@@ -305,7 +307,9 @@ socket.on("killPlayer", function(data) {
     } else {
         player.kill();
         player = null;
-        player = game.add.sprite(100, 100, "player", 130);
+        player = game.add.sprite(
+            Math.floor((Math.random() * 3200) + 1),
+            Math.floor((Math.random() * 2400) + 1), "player", 130);
         game.physics.arcade.enable(player);
         player.body.collideWorldBounds = true;
         loadAnimationFrames(player);
